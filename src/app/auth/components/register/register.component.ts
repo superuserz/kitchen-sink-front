@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -10,6 +10,15 @@ import { AuthService } from '../../services/auth.service';
 export class RegisterComponent {
   registerForm: FormGroup;
   submitted = false;
+
+  password: string = '';
+  passwordStartedTyping = false;
+
+  onPasswordInput(): void {
+  if (!this.passwordStartedTyping) {
+    this.passwordStartedTyping = true;
+    }
+  }
 
   constructor(private formBuilder: FormBuilder, private authService: AuthService) {
     this.registerForm = this.formBuilder.group({
@@ -23,25 +32,7 @@ export class RegisterComponent {
     return this.registerForm.controls;
   }
 
-  onSubmit() {
-    this.submitted = true;
-
-    if (this.registerForm.invalid) {
-      return;
-    }
-
-    this.authService.register(this.registerForm.value).subscribe(
-      data => {
-        console.log('Registration successful', data);
-      },
-      error => {
-        console.error('Registration error', error);
-      }
-    );
-  }
-
   onRegister() {
-    console.log('Register form submitted');
-    // Add your registration logic here
+    console.log('going to register');
   }
 }

@@ -1,13 +1,37 @@
-<form (ngSubmit)="onSubmit()" #signInForm="ngForm">
-  <div class="form-group">
-    <label for="email">Email</label>
-    <input type="email" id="email" required [(ngModel)]="email" name="email" class="form-control" />
+<div class="sign-in-container">
+  <h2 class="sign-in-header">Member Login</h2>
+
+  <form (ngSubmit)="onSubmit()" #signInForm="ngForm" class="sign-in-form">
+    <div class="input-wrapper">
+      <span class="input-icon"><i class="fa fa-envelope"></i></span>
+      <input
+        type="email"
+        required
+        [(ngModel)]="email"
+        name="email"
+        placeholder="Email"
+      />
+    </div>
+
+    <div class="input-wrapper">
+      <span class="input-icon"><i class="fa fa-lock"></i></span>
+      <input
+        type="password"
+        required
+        [(ngModel)]="password"
+        name="password"
+        placeholder="Password"
+      />
+    </div>
+
+    <button type="submit" class="login-button">LOGIN</button>
+
+    <div class="forgot-password">
+      <a routerLink="/forgot-password">Forgot Username / Password?</a>
+    </div>
+  </form>
+
+  <div class="create-account">
+    <a href="/auth/register">Create your Account →</a>
   </div>
-  <div class="form-group">
-    <label for="password">Password</label>
-    <input type="password" id="password" required [(ngModel)]="password" name="password" class="form-control" />
-  </div>
-  <button type="submit" class="btn btn-primary">Sign In</button>
-  <div *ngIf="errorMessage" class="alert alert-danger mt-2">{{ errorMessage }}</div>
-</form>
-<p>Don't have an account? <a routerLink="/register">Register here</a></p>
+</div>
