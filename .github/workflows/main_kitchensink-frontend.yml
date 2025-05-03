@@ -24,7 +24,7 @@ jobs:
         run: npm install
 
       - name: Build Angular app
-        run: npm run build -- --configuration production
+        run: npm run build -- --configuration production --base-href /
 
       - name: Show contents of dist folder (debug)
         run: ls -R dist
@@ -32,7 +32,7 @@ jobs:
       - name: Zip build output
         run: |
           cd dist/kitchen-sink-front
-          zip -r ../../release.zip ./*
+          zip -r ../../../release.zip ./*
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -57,7 +57,7 @@ jobs:
           name: angular-app
 
       - name: Unzip artifact
-        run: unzip release.zip
+        run: unzip release.zip -d app
 
       - name: Login to Azure
         uses: azure/login@v2
@@ -72,4 +72,4 @@ jobs:
         with:
           app-name: 'kitchensink-frontend'
           slot-name: 'Production'
-          package: 'dist/kitchen-sink-front'
+          package: 'app'
