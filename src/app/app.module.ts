@@ -12,6 +12,9 @@ import { AuthService } from './services/auth.service';
 import { HttpClientModule } from '@angular/common/http';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CookieService } from 'ngx-cookie-service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { LoadingInterceptor } from './shared/interceptors/loading.interceptor';
+import { LoadingService } from './shared/services/loading.service';
 
 
 @NgModule({
@@ -30,7 +33,11 @@ import { CookieService } from 'ngx-cookie-service';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [CookieService],
+  providers: [CookieService, {
+    provide: HTTP_INTERCEPTORS,
+    useClass: LoadingInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -7,7 +7,8 @@ import { RegisterMemberRequest, User } from '../models/user.model';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8081'; // Replace with your backend API URL
+  //private apiUrl = 'http://localhost:8081'; // Replace with your backend API URL
+  private apiUrl = 'https://kitchensink-backend-b9ame2g6bddnaee7.centralindia-01.azurewebsites.net/';
 
   constructor(private http: HttpClient) {}
 
