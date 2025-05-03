@@ -1,10 +1,10 @@
 {
-  "name": "angular-auth-app",
+  "name": "kitchen-sink-front",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "ng": "ng",
-    "serve": "ng serve --configuration development --project angular-auth-app --open",
+    "start": "ng serve --configuration development --project kitchen-sink-front --open",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
