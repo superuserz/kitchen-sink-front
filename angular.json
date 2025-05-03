@@ -52,6 +52,14 @@
                   "maximumError": "5kb"
                 }
               ]
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             }
           }
         },
@@ -63,6 +71,9 @@
           "configurations": {
             "production": {
               "browserTarget": "angular-auth-app:build:production"
+            },
+            "development": {
+              "browserTarget": "angular-auth-app:build:development"
             }
           }
         },

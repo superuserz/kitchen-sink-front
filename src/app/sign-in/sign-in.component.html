@@ -7,7 +7,7 @@
       <input
         type="email"
         required
-        [(ngModel)]="email"
+        email="email"
         name="email"
         placeholder="Email"
       />
@@ -18,20 +18,18 @@
       <input
         type="password"
         required
-        [(ngModel)]="password"
+        password="password"
         name="password"
         placeholder="Password"
       />
     </div>
 
     <button type="submit" class="login-button">LOGIN</button>
-
-    <div class="forgot-password">
-      <a routerLink="/forgot-password">Forgot Username / Password?</a>
-    </div>
   </form>
 
   <div class="create-account">
-    <a href="/auth/register">Create your Account →</a>
+    <nav>
+      <a routerLink="/register" routerLinkActive="active">Create your Account →</a>
+    </nav>
   </div>
 </div>

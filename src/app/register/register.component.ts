@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -12,13 +12,6 @@ export class RegisterComponent {
   submitted = false;
 
   password: string = '';
-  passwordStartedTyping = false;
-
-  onPasswordInput(): void {
-  if (!this.passwordStartedTyping) {
-    this.passwordStartedTyping = true;
-    }
-  }
 
   constructor(private formBuilder: FormBuilder, private authService: AuthService) {
     this.registerForm = this.formBuilder.group({
