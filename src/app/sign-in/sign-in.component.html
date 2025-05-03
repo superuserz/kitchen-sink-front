@@ -1,6 +1,8 @@
 <div class="sign-in-container">
   <h2 class="sign-in-header">Member Login</h2>
-
+  <div *ngIf="loginFailed" class="alert alert-danger" [class.fade-in]="loginFailed">
+    Please check your email or password.
+  </div>
   <form [formGroup]="signInForm" (ngSubmit)="onLogin()" class="sign-in-form">
     <div class="input-wrapper">
       <span class="input-icon"><i class="fa fa-envelope"></i></span>

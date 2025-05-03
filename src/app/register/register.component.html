@@ -5,7 +5,7 @@
     <a [routerLink]="['/sign-in']">Click here to login</a>.
   </div>
   <form [formGroup]="registerForm" (ngSubmit)="onRegister()" class="register-form">
-    <div class="input-wrapper">
+    <div class="input-wrapper required">
       <span class="input-icon"><i class="fa fa-user"></i></span>
       <input
         type="text"
@@ -16,7 +16,7 @@
       />
     </div>
 
-    <div class="input-wrapper">
+    <div class="input-wrapper required">
       <span class="input-icon"><i class="fa fa-envelope"></i></span>
       <input
         type="email"
@@ -27,7 +27,7 @@
       />
     </div>
 
-    <div class="input-wrapper">
+    <div class="input-wrapper required">
       <span class="input-icon"><i class="fa fa-phone"></i></span>
       <input
         type="tel"
@@ -38,7 +38,7 @@
       />
     </div>
 
-    <div class="input-wrapper">
+    <div class="input-wrapper required">
       <span class="input-icon"><i class="fa fa-lock"></i></span>
       <input
         type="password"
@@ -49,9 +49,22 @@
       />
     </div>
 
+    <div *ngIf="submitted && registerForm.invalid" class="alert alert-danger" [class.fade-in]="submitted && registerForm.invalid">
+      <ul class="mb-0">
+        <li *ngIf="f.name.errors?.['required']" [class.fade-in]="f.name.errors?.['required']">Name is required.</li>
+        <li *ngIf="f.email.errors?.['required']" [class.fade-in]="f.email.errors?.['required']">Email is required.</li>
+        <li *ngIf="f.email.errors?.['email']" [class.fade-in]="f.email.errors?.['email']">Email must be a valid email address.</li>
+        <li *ngIf="f.phoneNumber.errors?.['required']" [class.fade-in]="f.phoneNumber.errors?.['required']">Phone number is required.</li>
+        <li *ngIf="f.phoneNumber.errors?.['pattern']" [class.fade-in]="f.phoneNumber.errors?.['pattern']">Phone number must be 10 digits.</li>
+        <li *ngIf="f.password.errors?.['required']" [class.fade-in]="f.password.errors?.['required']">Password is required.</li>
+        <li *ngIf="f.password.errors?.['minlength']" [class.fade-in]="f.password.errors?.['minlength']">Password must be at least 7 characters long.</li>
+        <li *ngIf="submitted && !hasPasswordUppercase()" [class.fade-in]="submitted && !hasPasswordUppercase()">Password must contain at least one uppercase letter.</li>
+        <li *ngIf="submitted && !hasPasswordLowercase()" [class.fade-in]="submitted && !hasPasswordLowercase()">Password must contain at least one lowercase letter.</li>
+      </ul>
+    </div>
+
     <button
       type="submit"
-      [disabled]="registerForm.invalid"
       class="register-button"
     >
       Register

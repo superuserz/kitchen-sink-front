@@ -29,6 +29,8 @@ export class RegisterComponent {
   }
 
   onRegister() {
+    this.submitted = !this.submitted;
+    this.submitted = true;
     if (this.registerForm.invalid) {
       return;
     }
@@ -50,5 +52,13 @@ export class RegisterComponent {
         console.error('Registration failed:', err);
       }
     });
+  }
+
+  hasPasswordUppercase(): boolean {
+    return /[A-Z]/.test(this.f.password.value);
+  }
+  
+  hasPasswordLowercase(): boolean {
+    return /[a-z]/.test(this.f.password.value);
   }
 }

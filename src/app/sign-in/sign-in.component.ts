@@ -13,6 +13,7 @@ export class SignInComponent {
   email: string = '';
   password: string = '';
   errorMessage: string = '';
+  loginFailed: boolean = false;
   signInForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private cookieService: CookieService, private authService: AuthService, private router: Router) {
@@ -24,6 +25,7 @@ export class SignInComponent {
 
   onLogin() {
     if (this.signInForm.invalid) return;
+    this.loginFailed = false;
 
     const credentials = this.signInForm.value;
 
@@ -33,7 +35,7 @@ export class SignInComponent {
         this.router.navigate(['/dashboard']); // Navigate to dashboard
       },
       error: (err) => {
-        console.error('Login failed:', err);
+        this.loginFailed = true;
       }
     });
   }
