@@ -1,14 +1,13 @@
 <div class="sign-in-container">
   <h2 class="sign-in-header">Member Login</h2>
 
-  <form (ngSubmit)="onSubmit()" #signInForm="ngForm" class="sign-in-form">
+  <form [formGroup]="signInForm" (ngSubmit)="onLogin()" class="sign-in-form">
     <div class="input-wrapper">
       <span class="input-icon"><i class="fa fa-envelope"></i></span>
       <input
         type="email"
+        formControlName="email"
         required
-        email="email"
-        name="email"
         placeholder="Email"
       />
     </div>
@@ -17,14 +16,13 @@
       <span class="input-icon"><i class="fa fa-lock"></i></span>
       <input
         type="password"
+        formControlName="password"
         required
-        password="password"
-        name="password"
         placeholder="Password"
       />
     </div>
 
-    <button type="submit" class="login-button">LOGIN</button>
+    <button type="submit" class="login-button" [disabled]="signInForm.invalid">LOGIN</button>
   </form>
 
   <div class="create-account">

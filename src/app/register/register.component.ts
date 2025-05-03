@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
+import { RegisterMemberRequest } from '../models/user.model';
 
 @Component({
   selector: 'app-register',
@@ -12,11 +13,13 @@ export class RegisterComponent {
   submitted = false;
 
   password: string = '';
+  registerSuccess: boolean = false;
 
   constructor(private formBuilder: FormBuilder, private authService: AuthService) {
     this.registerForm = this.formBuilder.group({
-      username: ['', Validators.required],
+      name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
+      phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
@@ -26,6 +29,26 @@ export class RegisterComponent {
   }
 
   onRegister() {
-    console.log('going to register');
+    if (this.registerForm.invalid) {
+      return;
+    }
+  
+    // Map form values to the expected request format
+    const formValue = this.registerForm.value;
+    const registerRequest: RegisterMemberRequest = {
+      name: formValue.name,    // map "username" form field to "name"
+      email: formValue.email,
+      phoneNumber: formValue.phoneNumber,
+      password: formValue.password
+    };
+  
+    this.authService.register(registerRequest).subscribe({
+      next: (response) => {
+        this.registerSuccess = true;
+      },
+      error: (err) => {
+        console.error('Registration failed:', err);
+      }
+    });
   }
 }

@@ -1,16 +1,18 @@
 <div class="register-container">
   <h2 class="register-header">Create Account</h2>
-
-  <form (ngSubmit)="onRegister()" #registerForm="ngForm" class="register-form">
+  <div *ngIf="registerSuccess" class="alert alert-success">
+    You have successfully registered.
+    <a [routerLink]="['/sign-in']">Click here to login</a>.
+  </div>
+  <form [formGroup]="registerForm" (ngSubmit)="onRegister()" class="register-form">
     <div class="input-wrapper">
       <span class="input-icon"><i class="fa fa-user"></i></span>
       <input
         type="text"
-        id="username"
-        name="username"
-        ngModel
+        id="name"
+        formControlName="name"
         required
-        placeholder="Username"
+        placeholder="Enter Your Full Name"
       />
     </div>
 
@@ -19,10 +21,20 @@
       <input
         type="email"
         id="email"
-        name="email"
-        ngModel
+        formControlName="email"
         required
         placeholder="Email"
+      />
+    </div>
+
+    <div class="input-wrapper">
+      <span class="input-icon"><i class="fa fa-phone"></i></span>
+      <input
+        type="tel"
+        id="phoneNumber"
+        formControlName="phoneNumber"
+        required
+        placeholder="Phone Number"
       />
     </div>
 
@@ -31,8 +43,7 @@
       <input
         type="password"
         id="password"
-        name="password"
-        ngModel
+        formControlName="password"
         required
         placeholder="Password"
       />
@@ -40,7 +51,7 @@
 
     <button
       type="submit"
-      [disabled]="!registerForm.form.valid"
+      [disabled]="registerForm.invalid"
       class="register-button"
     >
       Register
