@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,9 +8,18 @@ import { Component } from '@angular/core';
 })
 export class DashboardComponent {
   sidebarOpen = true;
-  userName = 'Manmeet'; // You can dynamically fetch this from a service
+  userName: string = '';
+  isAdminUser: boolean = false;
 
-  toggleSidebar() {
+  constructor(private authContext: AuthService) {}
+
+  ngOnInit(): void {
+    // Get user's email and role
+    this.userName = this.authContext.getEmail() ?? 'Guest';
+    this.isAdminUser = this.authContext.isAdmin();
+  }
+
+  toggleSidebar(): void {
     this.sidebarOpen = !this.sidebarOpen;
   }
 }

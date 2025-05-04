@@ -15,7 +15,7 @@
       <aside class="sidebar" [class.collapsed]="!sidebarOpen">
         <ul>
           <li><a routerLink="/dashboard/profile"><i class="fa fa-user"></i> Profile</a></li>
-          <li><a routerLink="/dashboard/users"><i class="fa fa-users"></i> View Users</a></li>
+          <li *ngIf="isAdminUser"><a routerLink="/dashboard/users"><i class="fa fa-users"></i> View Users</a></li>
         </ul>
       </aside>
   
