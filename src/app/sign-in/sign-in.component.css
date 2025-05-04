@@ -47,19 +47,19 @@
   }
   
   .login-button {
-    background-color: #4caf50;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    transition: all 0.3s ease; /* Smooth animation */
+    background-color: #388e3c;
     color: white;
-    padding: 12px;
     border: none;
     border-radius: 50px;
-    font-size: 16px;
-    font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease;
   }
   
   .login-button:hover {
     background-color: #43a047;
+    transform: scale(1.05); /* Slight grow */
   }
   
   .forgot-password {
@@ -89,4 +89,44 @@
   
   .create-account a:hover {
     text-decoration: underline;
+  }
+
+  .alert ul {
+    text-align: left;
+    padding-left: 1.25rem; /* Ensures bullets show */
+    margin: 0;
+  }
+  
+  .alert li {
+    text-align: left;
+  }
+
+  .backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: 
+      linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), /* grey overlay */
+      url('/assets/images/background.png'); /* adjust path */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
+  }
+
+  .required::after {
+    content: ' *';
+    color: red;
+    font-weight: bold;
+  }
+  
+  .fade-in {
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
   }

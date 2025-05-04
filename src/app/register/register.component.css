@@ -46,7 +46,7 @@
   }
   
   .register-button {
-    padding: 12px;
+    padding: 12px 24px;
     background-color: #4caf50;
     color: white;
     border: none;
@@ -54,16 +54,17 @@
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: all 0.3s ease; /* Smooth transition for scale + color */
+  }
+  
+  .register-button:hover:not(:disabled) {
+    background-color: #43a047;
+    transform: scale(1.05); /* Slight grow */
   }
   
   .register-button:disabled {
     background-color: #9e9e9e;
     cursor: not-allowed;
-  }
-  
-  .register-button:hover:not(:disabled) {
-    background-color: #43a047;
   }
 
   .password-requirements {
@@ -91,4 +92,34 @@
   
   .text-danger {
     color: #e53935;
+  }
+
+  .backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: 
+      linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), /* grey overlay */
+      url('/assets/images/background.png'); /* adjust path */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
+  }
+
+  .required::after {
+    content: ' *';
+    color: red;
+    font-weight: bold;
+  }
+  
+  .fade-in {
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
   }

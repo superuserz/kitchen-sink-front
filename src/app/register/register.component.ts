@@ -11,9 +11,11 @@ import { RegisterMemberRequest } from '../models/user.model';
 export class RegisterComponent {
   registerForm: FormGroup;
   submitted = false;
-
+  errorMessage: string = '';
   password: string = '';
   registerSuccess: boolean = false;
+  isEmailTaken: boolean = false;
+  showPassword = false;
 
   constructor(private formBuilder: FormBuilder, private authService: AuthService) {
     this.registerForm = this.formBuilder.group({
@@ -29,6 +31,7 @@ export class RegisterComponent {
   }
 
   onRegister() {
+    this.isEmailTaken = false;
     this.submitted = !this.submitted;
     this.submitted = true;
     if (this.registerForm.invalid) {
@@ -49,7 +52,14 @@ export class RegisterComponent {
         this.registerSuccess = true;
       },
       error: (err) => {
-        console.error('Registration failed:', err);
+        if (err.error && err.error.email) {
+          this.isEmailTaken = true;
+          this.errorMessage = 'User with this email already exists. Want to Login? ';
+        } else {
+          this.errorMessage = err.error?.message || 'Something went wrong';
+          this.registerSuccess = false;
+        }
+        console.error('Registration failed:', err.error);
       }
     });
   }
@@ -60,5 +70,9 @@ export class RegisterComponent {
   
   hasPasswordLowercase(): boolean {
     return /[a-z]/.test(this.f.password.value);
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 }

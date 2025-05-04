@@ -14,16 +14,29 @@ export class SignInComponent {
   password: string = '';
   errorMessage: string = '';
   loginFailed: boolean = false;
+  submitted: boolean = false;
   signInForm: FormGroup;
+  showPassword = false;
 
   constructor(private formBuilder: FormBuilder, private cookieService: CookieService, private authService: AuthService, private router: Router) {
     this.signInForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required]]
     });
   }
 
+  get f() {
+    return this.signInForm.controls;
+  }
+
   onLogin() {
+    console.log(this.submitted);
+    this.submitted = true;
+    
+    if (this.signInForm.invalid) {
+      return;
+    }
+
     if (this.signInForm.invalid) return;
     this.loginFailed = false;
 
@@ -38,5 +51,9 @@ export class SignInComponent {
         this.loginFailed = true;
       }
     });
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 }

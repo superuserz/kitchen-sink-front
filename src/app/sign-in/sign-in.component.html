@@ -15,17 +15,30 @@
       />
     </div>
 
-    <div class="input-wrapper">
+    <div class="input-wrapper password-wrapper">
       <span class="input-icon"><i class="fa fa-lock"></i></span>
+      
       <input
-        type="password"
+        [type]="showPassword ? 'text' : 'password'"
         formControlName="password"
         required
         placeholder="Password"
       />
+    
+      <span class="toggle-password" (click)="togglePasswordVisibility()">
+        <i class="fa" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+      </span>
     </div>
 
-    <button type="submit" class="login-button" [disabled]="signInForm.invalid">LOGIN</button>
+    <div *ngIf="submitted && signInForm.invalid" class="alert alert-danger" [class.fade-in]="submitted && signInForm.invalid">
+      <ul class="mb-0">
+        <li *ngIf="f.email.errors?.['required']">Email is required.</li>
+        <li *ngIf="f.email.errors?.['email']">Enter a valid email address.</li>
+        <li *ngIf="f.password.errors?.['required']">Password is required.</li>
+      </ul>
+    </div>
+
+    <button type="submit" class="login-button">LOGIN</button>
   </form>
 
   <div class="create-account">

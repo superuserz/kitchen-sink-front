@@ -5,6 +5,10 @@
     You have successfully registered.
     <a [routerLink]="['/sign-in']">Click here to login</a>.
   </div>
+  <div *ngIf="isEmailTaken" class="alert alert-danger">
+    {{errorMessage}}
+    <a [routerLink]="['/sign-in']">Try Login</a>.
+  </div>
   <form [formGroup]="registerForm" (ngSubmit)="onRegister()" class="register-form">
     <div class="input-wrapper required">
       <span class="input-icon"><i class="fa fa-user"></i></span>
@@ -39,15 +43,19 @@
       />
     </div>
 
-    <div class="input-wrapper required">
+    <div class="input-wrapper password-wrapper">
       <span class="input-icon"><i class="fa fa-lock"></i></span>
+      
       <input
-        type="password"
-        id="password"
+        [type]="showPassword ? 'text' : 'password'"
         formControlName="password"
         required
         placeholder="Password"
       />
+    
+      <span class="toggle-password" (click)="togglePasswordVisibility()">
+        <i class="fa" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+      </span>
     </div>
 
     <div *ngIf="submitted && registerForm.invalid" class="alert alert-danger" [class.fade-in]="submitted && registerForm.invalid">
