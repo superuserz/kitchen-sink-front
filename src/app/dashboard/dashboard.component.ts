@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,7 +12,7 @@ export class DashboardComponent {
   userName: string = '';
   isAdminUser: boolean = false;
 
-  constructor(private authContext: AuthService) {}
+  constructor(private authContext: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     // Get user's email and role
@@ -21,5 +22,9 @@ export class DashboardComponent {
 
   toggleSidebar(): void {
     this.sidebarOpen = !this.sidebarOpen;
+  }
+  
+  logout(): void {
+    this.authContext.logout(); // replace with your actual logic
   }
 }

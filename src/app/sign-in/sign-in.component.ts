@@ -44,7 +44,7 @@ export class SignInComponent {
 
     this.authService.login(credentials).subscribe({
       next: (response) => {
-        this.cookieService.set('token', response.token); // Store JWT in cookie
+        this.cookieService.set('auth_token', response.token, { path: '/' }); // Store JWT in cookie
         this.router.navigate(['/dashboard']); // Navigate to dashboard
       },
       error: (err) => {

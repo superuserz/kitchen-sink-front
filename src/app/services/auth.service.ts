@@ -67,8 +67,10 @@ export class AuthService {
   }
 
   logout(): void {
-    this.cookieService.delete(this.token, '/');
-    this.cookieService.delete(this.token, '/');
-    this.router.navigate(['/sign-in']); // adjust path as needed
+      this.cookieService.delete('auth_token', '/');  // Delete the JWT cookie
+        // Clear other in-memory state (if any), then route
+        this.router.navigate(['/sign-in']).then(() => {
+          window.location.reload();
+        });
   }
 }
