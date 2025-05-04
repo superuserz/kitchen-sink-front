@@ -1,4 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { User } from 'src/app/models/user.model';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -6,8 +9,17 @@ import { Component } from '@angular/core';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent {
-  user = {
-    name: 'Manmeet Devgun',
-    email: 'manmeet.devgun@nagarro.com'
-  };
+
+  user: User | null = null;
+
+  constructor(private http: HttpClient, private authService: AuthService) {}
+
+
+
+  ngOnInit(): void {
+    this.authService.getUserProfile().subscribe({
+      next: (res) => this.user = res,
+      error: (err) => console.error('Failed to load profile:', err)
+    });
+  }
 }

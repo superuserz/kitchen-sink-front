@@ -30,7 +30,6 @@ export class SignInComponent {
   }
 
   onLogin() {
-    console.log(this.submitted);
     this.submitted = true;
     
     if (this.signInForm.invalid) {

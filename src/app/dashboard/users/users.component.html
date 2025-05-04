@@ -7,14 +7,37 @@
       <table class="table table-hover mb-0">
         <thead class="table-light">
           <tr>
-            <th>Name</th>
+            <th>ID</th>
+            <th (click)="sortBy('name')" style="cursor: pointer;">Name
+              <i *ngIf="currentSortKey === 'name'" class="bi" [ngClass]="{
+                'bi-caret-up-fill': sortDirection === 'asc',
+                'bi-caret-down-fill': sortDirection === 'desc'
+              }"></i>
+            </th>
             <th>Email</th>
+            <th>Phone</th>
+            <th (click)="sortBy('roles')" style="cursor: pointer;">Roles
+              <i *ngIf="currentSortKey === 'roles'" class="bi" [ngClass]="{
+                'bi-caret-up-fill': sortDirection === 'asc',
+                'bi-caret-down-fill': sortDirection === 'desc'
+              }"></i>
+            </th>
+            <th (click)="sortBy('registeredOn')" style="cursor: pointer;">Registered On
+              <i *ngIf="currentSortKey === 'registeredOn'" class="bi" [ngClass]="{
+                'bi-caret-up-fill': sortDirection === 'asc',
+                'bi-caret-down-fill': sortDirection === 'desc'
+              }"></i>
+            </th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let user of users">
+            <td>{{ user.id }}</td>
             <td>{{ user.name }}</td>
             <td>{{ user.email }}</td>
+            <td>{{ user.phoneNumber }}</td>
+            <td>{{ user.roles.join(', ') }}</td>
+            <td>{{ user.registeredOn | date: 'medium' }}</td>
           </tr>
         </tbody>
       </table>

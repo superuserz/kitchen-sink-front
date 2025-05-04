@@ -1,7 +1,6 @@
-import { Injectable, inject } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, CanActivateFn, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { inject } from '@angular/core';
+import { CanActivateFn, Router} from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { Observable } from 'rxjs';
 
 export const authGuard: CanActivateFn = () => {
   const cookieService = inject(CookieService);
@@ -13,7 +12,6 @@ export const authGuard: CanActivateFn = () => {
 };
 
 function isTokenExpired(token: string): boolean {
-  console.log('Auth Gaurd activates');
   try {
     const payload = JSON.parse(atob(token.split('.')[1])); // decode JWT payload
     const expiry = payload.exp;

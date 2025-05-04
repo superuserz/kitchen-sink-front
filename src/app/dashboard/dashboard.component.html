@@ -7,7 +7,7 @@
     </div>
   
     <div class="navbar-right d-flex align-items-center gap-3">
-      <span class="welcome-text">Welcome, {{ userName }}</span>
+      <span class="welcome-text">Welcome, {{ user?.name }}</span>
       <button class="btn btn-outline-danger btn-sm" (click)="logout()">
         <i class="fa fa-sign-out-alt me-1"></i> Logout
       </button>
@@ -24,7 +24,7 @@
             <i class="fa fa-user"></i> Profile
           </a>
         </li>
-        <li>
+        <li *ngIf="isAdminUser">
           <a routerLink="users" routerLinkActive="active">
             <i class="fa fa-users"></i> View Users
           </a>

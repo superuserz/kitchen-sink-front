@@ -18,8 +18,6 @@ export class TokenInterceptor implements HttpInterceptor {
 
     // Skip token if request URL ends with any of the public URLs
     const isPublic = publicUrls.some(url => {
-        console.log(req.url);
-        console.log(url);
         req.url.endsWith(url)});
 
 

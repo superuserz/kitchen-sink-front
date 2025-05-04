@@ -1,9 +1,12 @@
-export interface User {
-  id?: number;
-  username: string;
-  email: string;
+export type UserRole = 'USER' | 'ADMIN';
 
-  password: string;
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  phoneNumber: string;
+  roles: UserRole[];
+  registeredOn: string;
   // Add any additional fields as necessary
 }
 
