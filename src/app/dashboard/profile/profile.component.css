@@ -1,8 +1,8 @@
 .profile-card {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 8px;
-    border: 3px solid rgba(0, 0, 0, 0.9);  /* ✅ Solid black border */
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);     /* Smooth shadow */
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 3px solid rgba(0, 0, 0, 0.9);  /* ✅ Solid black border */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);     /* Smooth shadow */
 
-  }
+}
