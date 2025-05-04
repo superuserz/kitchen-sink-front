@@ -21,8 +21,7 @@ import { LoadingService } from './shared/services/loading.service';
   declarations: [
     AppComponent,
     SignInComponent,
-    RegisterComponent,
-    DashboardComponent
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
