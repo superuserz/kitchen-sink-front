@@ -29,6 +29,11 @@
             <i class="fa fa-users"></i> View Users
           </a>
         </li>
+        <li *ngIf="isAdminUser">
+          <a routerLink="report" routerLinkActive="active">
+            <i class="fa fa-users"></i> Report
+          </a>
+        </li>
       </ul>
     </aside>
 

@@ -4,6 +4,7 @@ import { NgModule } from "@angular/core";
 import { ProfileComponent } from "./profile/profile.component";
 import { UsersComponent } from "./users/users.component";
 import { authGuard } from "../shared/guards/auth.guard";
+import { ReportComponent } from "./report/report.component";
 
 const routes: Routes = [
     {
@@ -12,7 +13,8 @@ const routes: Routes = [
       canActivateChild: [authGuard],
       children: [
         { path: 'profile', component: ProfileComponent },
-        { path: 'users', component: UsersComponent }, // Can be protected with AdminGuard
+        { path: 'users', component: UsersComponent },
+        { path: 'report', component: ReportComponent },
         { path: '', redirectTo: 'profile', pathMatch: 'full' }
       ]
     }
