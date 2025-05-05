@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { User } from '../models/user.model';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -14,5 +13,9 @@ export class UserService {
 
    deleteUser(userId: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/api/members/${userId}`);
+  }
+
+  searchMembers(criteria: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/api/members/search`, criteria);
   }
 }

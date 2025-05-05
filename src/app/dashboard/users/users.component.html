@@ -9,23 +9,23 @@
           <tr>
             <th>ID</th>
             <th (click)="sortBy('name')" style="cursor: pointer;">Name
-              <i *ngIf="currentSortKey === 'name'" class="bi" [ngClass]="{
-                'bi-caret-up-fill': sortDirection === 'asc',
-                'bi-caret-down-fill': sortDirection === 'desc'
+              <i *ngIf="criteria.sortBy === 'name'" class="bi" [ngClass]="{
+                'bi-caret-up-fill': criteria.direction === 'asc',
+                'bi-caret-down-fill': criteria.direction === 'desc'
               }"></i>
             </th>
             <th>Email</th>
             <th>Phone</th>
             <th (click)="sortBy('roles')" style="cursor: pointer;">Roles
-              <i *ngIf="currentSortKey === 'roles'" class="bi" [ngClass]="{
-                'bi-caret-up-fill': sortDirection === 'asc',
-                'bi-caret-down-fill': sortDirection === 'desc'
+              <i *ngIf="criteria.sortBy === 'roles'" class="bi" [ngClass]="{
+                'bi-caret-up-fill': criteria.direction === 'asc',
+                'bi-caret-down-fill': criteria.direction === 'desc'
               }"></i>
             </th>
             <th (click)="sortBy('registeredOn')" style="cursor: pointer;">Registered On
-              <i *ngIf="currentSortKey === 'registeredOn'" class="bi" [ngClass]="{
-                'bi-caret-up-fill': sortDirection === 'asc',
-                'bi-caret-down-fill': sortDirection === 'desc'
+              <i *ngIf="criteria.sortBy === 'registeredOn'" class="bi" [ngClass]="{
+                'bi-caret-up-fill': criteria.direction === 'asc',
+                'bi-caret-down-fill': criteria.direction === 'desc'
               }"></i>
             </th>
             <th>Action</th>
@@ -41,7 +41,7 @@
             <td>{{ user.registeredOn | date: 'medium' }}</td>
             <td>
               <button *ngIf="!isAdmin(user.roles)"
-              class="btn btn-sm btn-outline-danger"
+                      class="btn btn-sm btn-outline-danger"
                       (click)="confirmDelete(user)">
                 <i class="bi bi-trash"></i>
               </button>
@@ -50,9 +50,29 @@
         </tbody>
       </table>
     </div>
-  </div>
-</div>
 
+    <!-- 🔢 Pagination -->
+    <nav *ngIf="totalItems > 0" class="d-flex justify-content-center align-items-center mt-3">
+      <ul class="pagination mb-0">
+        <li class="page-item" [class.disabled]="criteria.page === 0">
+          <button class="page-link" (click)="goToFirstPage()">« First</button>
+        </li>
+        <li class="page-item" [class.disabled]="criteria.page === 0">
+          <button class="page-link" (click)="goToPreviousPage()">‹ Prev</button>
+        </li>
+        <li class="page-item disabled">
+          <span class="page-link">
+            Page {{ criteria.page + 1 }} of {{ totalPages }}
+          </span>
+        </li>
+        <li class="page-item" [class.disabled]="(criteria.page + 1) >= totalPages">
+          <button class="page-link" (click)="goToNextPage()">Next ›</button>
+        </li>
+        <li class="page-item" [class.disabled]="(criteria.page + 1) >= totalPages">
+          <button class="page-link" (click)="goToLastPage()">Last »</button>
+        </li>
+      </ul>
+    </nav>
 
 <!-- ✅ Delete Confirmation Modal -->
 <div class="modal fade" id="confirmDeleteModal" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
@@ -72,4 +92,3 @@
     </div>
   </div>
 </div>
-

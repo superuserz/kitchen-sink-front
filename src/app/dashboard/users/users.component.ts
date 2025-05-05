@@ -14,37 +14,51 @@ export class UsersComponent {
   currentSortKey: keyof User | 'name' = 'name';
   sortDirection: 'asc' | 'desc' = 'asc';
   selectedUser: any = null;
+  totalItems = 0;
+
+  criteria = {
+    page: 0,
+    size: 10,
+    sortBy: 'name',
+    direction: 'asc',
+    name: '',
+    email: '',
+    role: ''
+  };
 
   constructor(private authService: AuthService, private userService: UserService) {}
 
   ngOnInit(): void {
-    this.authService.getAllUsers().subscribe({
-      next: (res) => {
-        this.users = res;
+    this.userService.searchMembers(this.criteria).subscribe({
+      next: (response) => {
+        this.users = response.content;            // Set paginated users
+        this.totalItems = response.totalElements;
+         console.log(this.criteria.size);
+         console.log(this.totalItems);
       },
       error: (err) => {
-        console.error('Failed to load users:', err);
+        console.error('Failed to load users', err);
       }
     });
   }
 
-  sortBy(key: keyof User): void {
-    if (this.currentSortKey === key) {
-      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
-    } else {
-      this.currentSortKey = key;
-      this.sortDirection = 'asc';
-    }
+  // sortBy(key: keyof User): void {
+  //   if (this.currentSortKey === key) {
+  //     this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+  //   } else {
+  //     this.currentSortKey = key;
+  //     this.sortDirection = 'asc';
+  //   }
 
-    this.users.sort((a, b) => {
-      const aVal = this.getComparableValue(a[key]);
-      const bVal = this.getComparableValue(b[key]);
+  //   this.users.sort((a, b) => {
+  //     const aVal = this.getComparableValue(a[key]);
+  //     const bVal = this.getComparableValue(b[key]);
 
-      if (aVal < bVal) return this.sortDirection === 'asc' ? -1 : 1;
-      if (aVal > bVal) return this.sortDirection === 'asc' ? 1 : -1;
-      return 0;
-    });
-  }
+  //     if (aVal < bVal) return this.sortDirection === 'asc' ? -1 : 1;
+  //     if (aVal > bVal) return this.sortDirection === 'asc' ? 1 : -1;
+  //     return 0;
+  //   });
+  // }
 
   private getComparableValue(value: any): any {
     if (Array.isArray(value)) return value.join(','); // for roles
@@ -85,5 +99,59 @@ export class UsersComponent {
     });
   }
   
+  getUsers(): void {
+    this.userService.searchMembers(this.criteria).subscribe(response => {
+      this.users = response.content;
+      this.totalItems = response.totalElements;
+    });
+  }
+
+  sortBy(key: string): void {
+    if (this.criteria.sortBy === key) {
+      this.criteria.direction = this.criteria.direction === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.criteria.sortBy = key;
+      this.criteria.direction = 'asc';
+    }
+    this.getUsers();
+  }
+  
+  onPageChange(page: number): void {
+    this.criteria.page = page;
+    this.getUsers();
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.totalItems / this.criteria.size || 1);
+  }
+
+  goToFirstPage(): void {
+    if (this.criteria.page > 0) {
+      this.criteria.page = 0;
+      this.getUsers();
+    }
+  }
+  
+  goToPreviousPage(): void {
+    if (this.criteria.page > 0) {
+      this.criteria.page--;
+      this.getUsers();
+    }
+  }
+  
+  goToNextPage(): void {
+    if ((this.criteria.page + 1) * this.criteria.size < this.totalItems) {
+      this.criteria.page++;
+      this.getUsers();
+    }
+  }
+  
+  goToLastPage(): void {
+    const lastPage = Math.max(this.totalPages - 1, 0);
+    if (this.criteria.page < lastPage) {
+      this.criteria.page = lastPage;
+      this.getUsers();
+    }
+  }
 
 }
