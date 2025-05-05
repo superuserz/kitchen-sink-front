@@ -20,11 +20,11 @@ export class AuthService {
   }
 
   register(registerRequest: RegisterMemberRequest): Observable<any> {
-    return this.http.post(`${this.apiUrl}/api/register`, registerRequest);
+    return this.http.post(`${this.apiUrl}/api/member/register`, registerRequest);
   }
 
   getUserProfile(): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/api/profile`);
+    return this.http.get<User>(`${this.apiUrl}/api/member/me`);
   }
 
   getAllUsers(): Observable<User[]> {
