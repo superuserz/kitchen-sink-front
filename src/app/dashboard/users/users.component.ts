@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
+import { UserService } from 'src/app/services/user.service';
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-users',
@@ -11,8 +13,9 @@ export class UsersComponent {
   users: User[] = [];
   currentSortKey: keyof User | 'name' = 'name';
   sortDirection: 'asc' | 'desc' = 'asc';
+  selectedUser: any = null;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private userService: UserService) {}
 
   ngOnInit(): void {
     this.authService.getAllUsers().subscribe({
@@ -49,5 +52,38 @@ export class UsersComponent {
     if (typeof value === 'string' && !isNaN(Date.parse(value))) return Date.parse(value);
     return value;
   }
+
+  isAdmin(roles: string[]): boolean {
+    return roles.includes('ADMIN');
+  }
+
+  confirmDelete(user: any): void {
+
+    this.selectedUser = user;
+    const modalEl = document.getElementById('confirmDeleteModal');
+    const modal = new bootstrap.Modal(modalEl, {
+      backdrop: false  // ✅ disables grey overlay
+    });
+    modal.show();
+  }
+
+  deleteConfirmed(): void {
+    console.log('Deleting user:', this.selectedUser);
+    if (!this.selectedUser) return;
+
+    this.userService.deleteUser(this.selectedUser.id).subscribe({
+      next: () => {
+        this.users = this.users.filter(u => u.id !== this.selectedUser.id);
+        const modalEl = document.getElementById('confirmDeleteModal');
+        const modal = bootstrap.Modal.getInstance(modalEl);
+        modal.hide();
+        this.selectedUser = null;
+      },
+      error: err => {
+        console.error('Delete failed:', err);
+      }
+    });
+  }
+  
 
 }
