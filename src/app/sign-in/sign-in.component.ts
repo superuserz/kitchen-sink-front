@@ -17,6 +17,7 @@ export class SignInComponent {
   submitted: boolean = false;
   signInForm: FormGroup;
   showPassword = false;
+  tooManyRequests = false;
 
   constructor(private formBuilder: FormBuilder, private cookieService: CookieService, private authService: AuthService, private router: Router) {
     this.signInForm = this.formBuilder.group({
@@ -38,6 +39,7 @@ export class SignInComponent {
 
     if (this.signInForm.invalid) return;
     this.loginFailed = false;
+    this.tooManyRequests = false;
 
     const credentials = this.signInForm.value;
 
@@ -47,7 +49,11 @@ export class SignInComponent {
         this.router.navigate(['/dashboard']); // Navigate to dashboard
       },
       error: (err) => {
-        this.loginFailed = true;
+        if(err.status === 429) {
+          this.tooManyRequests = true;
+        } else if(err.status === 401) {
+          this.loginFailed = true;
+        }
       }
     });
   }

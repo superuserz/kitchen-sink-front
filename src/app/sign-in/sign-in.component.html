@@ -4,6 +4,9 @@
   <div *ngIf="loginFailed" class="alert alert-danger" [class.fade-in]="loginFailed">
     Please check your email or password.
   </div>
+  <div *ngIf="tooManyRequests" class="alert alert-danger" [class.fade-in]="loginFailed">
+    Too many attempts. Please try again later.
+  </div>
   <form [formGroup]="signInForm" (ngSubmit)="onLogin()" class="sign-in-form">
     <div class="input-wrapper">
       <span class="input-icon"><i class="fa fa-envelope"></i></span>
