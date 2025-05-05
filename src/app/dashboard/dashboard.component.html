@@ -16,22 +16,24 @@
 
   <!-- Sidebar + Main Content -->
   <div class="main-layout">
- 
     <aside class="sidebar" [class.collapsed]="!sidebarOpen">
-      <ul>
+      <ul class="list-unstyled">
         <li>
-          <a routerLink="profile" routerLinkActive="active">
-            <i class="fa fa-user"></i> Profile
+          <a routerLink="profile" routerLinkActive="active"
+             class="btn btn-light btn-sm d-flex align-items-center w-100 mb-2">
+            <i class="fa fa-user me-2"></i> Profile
           </a>
         </li>
         <li *ngIf="isAdminUser">
-          <a routerLink="users" routerLinkActive="active">
-            <i class="fa fa-users"></i> View Users
+          <a routerLink="users" routerLinkActive="active"
+             class="btn btn-light btn-sm d-flex align-items-center w-100 mb-2">
+            <i class="fa fa-users me-2"></i> View Users
           </a>
         </li>
         <li *ngIf="isAdminUser">
-          <a routerLink="report" routerLinkActive="active">
-            <i class="fa fa-users"></i> Report
+          <a routerLink="report" routerLinkActive="active"
+             class="btn btn-light btn-sm d-flex align-items-center w-100 mb-2">
+            <i class="fa fa-file-alt me-2"></i> Report
           </a>
         </li>
       </ul>
