@@ -22,6 +22,7 @@
                 'bi-caret-down-fill': criteria.direction === 'desc'
               }"></i>
             </th>
+            <th></th>
             <th (click)="sortBy('registeredOn')" style="cursor: pointer;">Registered On
               <i *ngIf="criteria.sortBy === 'registeredOn'" class="bi" [ngClass]="{
                 'bi-caret-up-fill': criteria.direction === 'asc',
@@ -38,6 +39,11 @@
             <td>{{ user.email }}</td>
             <td>{{ user.phoneNumber }}</td>
             <td>{{ user.roles.join(', ') }}</td>
+            <td>
+              <button *ngIf="!user.roles.includes('ADMIN')" class="btn btn-sm btn-warning" (click)="makeAdmin(user)">
+                Promote to Admin
+              </button>
+            </td>
             <td>{{ user.registeredOn | date: 'medium' }}</td>
             <td>
               <button *ngIf="!isAdmin(user.roles)"

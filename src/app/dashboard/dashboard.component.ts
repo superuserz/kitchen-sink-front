@@ -13,12 +13,15 @@ export class DashboardComponent {
   isAdminUser: boolean = false;
   user: User | null = null;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
+    this.authService.loadUserProfile();
+
+    // Subscribe to user observable to get real-time updates
     this.authService.currentUser$.subscribe(user => {
-      this.user = user;
-      this.isAdminUser = user?.roles?.includes(Role.ADMIN) ?? false;
+    this.user = user;
+    this.isAdminUser = user?.roles?.includes(Role.ADMIN) ?? false;
     });
   }
 

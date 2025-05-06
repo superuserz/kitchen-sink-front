@@ -154,4 +154,19 @@ export class UsersComponent {
     }
   }
 
+  makeAdmin(user: User) {
+    if (user.roles.includes('ADMIN')) {
+      console.log('User is already an admin.');
+      return;
+    }
+  
+    this.userService.makeUserAdmin(user).subscribe({
+      next: updated => {
+        this.getUsers();
+      },
+      error: err => {
+      }
+    });
+  }
+
 }
