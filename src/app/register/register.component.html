@@ -56,6 +56,9 @@
         formControlName="password"
         required
         placeholder="Password"
+        (copy)="preventAction($event)"
+        (paste)="preventAction($event)"
+        (cut)="preventAction($event)"
       />
     
       <span class="toggle-password" (click)="togglePasswordVisibility()">
@@ -66,8 +69,9 @@
     <div *ngIf="submitted && registerForm.invalid" class="alert alert-danger" [class.fade-in]="submitted && registerForm.invalid">
       <ul class="mb-0">
         <li *ngIf="f.name.errors?.['required']" [class.fade-in]="f.name.errors?.['required']">Name is required.</li>
+        <li *ngIf="submitted && !hasNameOnlyLetters()">Name cannot contain numbers or special characters.</li>
         <li *ngIf="f.email.errors?.['required']" [class.fade-in]="f.email.errors?.['required']">Email is required.</li>
-        <li *ngIf="f.email.errors?.['email']" [class.fade-in]="f.email.errors?.['email']">Email must be a valid email address.</li>
+        <li *ngIf="f.email.errors?.['invalidEmailFormat']" [class.fade-in]="f.email.errors?.['invalidEmailFormat']">Email must be a valid email address.</li>
         <li *ngIf="f.phoneNumber.errors?.['required']" [class.fade-in]="f.phoneNumber.errors?.['required']">Phone number is required.</li>
         <li *ngIf="f.phoneNumber.errors?.['pattern']" [class.fade-in]="f.phoneNumber.errors?.['pattern']">Phone number must be 10 digits.</li>
         <li *ngIf="f.password.errors?.['required']" [class.fade-in]="f.password.errors?.['required']">Password is required.</li>
