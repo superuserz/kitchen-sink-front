@@ -17,9 +17,11 @@ export class ProfileComponent {
 
 
   ngOnInit(): void {
-    this.authService.getUserProfile().subscribe({
-      next: (res) => this.user = res,
-      error: (err) => console.error('Failed to load profile:', err)
-    });
+    this.authService.loadUserProfile();
+
+    // Subscribe to user observable to get real-time updates
+    this.authService.currentUser$.subscribe(user => {
+    this.user = user;
+  });
   }
 }

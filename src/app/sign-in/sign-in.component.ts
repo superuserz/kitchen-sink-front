@@ -44,8 +44,7 @@ export class SignInComponent {
     const credentials = this.signInForm.value;
 
     this.authService.login(credentials).subscribe({
-      next: (response) => {
-        this.cookieService.set('auth_token', response.token, { path: '/' }); // Store JWT in cookie
+      next: () => {
         this.router.navigate(['/dashboard']); // Navigate to dashboard
       },
       error: (err) => {

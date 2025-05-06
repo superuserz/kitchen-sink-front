@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
-import { User } from '../models/user.model';
+import { Role, User } from '../models/user.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,10 +16,8 @@ export class DashboardComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-     this.isAdminUser = this.authService.isAdmin();
-     this.authService.getUserProfile().subscribe({
-      next: (res) => this.user = res,
-      error: (err) => console.error('Failed to load profile:', err)
+    this.authService.currentUser$.subscribe(user => {
+      this.isAdminUser = user?.roles?.includes(Role.ADMIN) ?? false;
     });
   }
 

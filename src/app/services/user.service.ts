@@ -12,10 +12,10 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
    deleteUser(userId: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/api/members/${userId}`);
+    return this.http.delete<void>(`${this.apiUrl}/api/members/${userId}`, { withCredentials: true });
   }
 
   searchMembers(criteria: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/api/members/search`, criteria);
+    return this.http.post<any>(`${this.apiUrl}/api/members/search`, criteria, { withCredentials: true });
   }
 }

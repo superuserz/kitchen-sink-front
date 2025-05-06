@@ -13,8 +13,9 @@ import { environment } from "src/environments/environment";
   
     download(): Observable<any> {
       return this.http.get(this.apiUrl + "/api/members/export", {
-        responseType: 'blob'
-      }).pipe(
+        responseType: 'blob',
+        withCredentials: true,
+      },).pipe(
         map((res) => {
           return {
             filename: `Report.xlsx`,

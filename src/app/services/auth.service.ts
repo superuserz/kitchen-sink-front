@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { RegisterMemberRequest, User } from '../models/user.model';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
@@ -11,72 +11,44 @@ import { environment } from 'src/environments/environment';
 })
 export class AuthService {
   private apiUrl = environment.apiUrl;
-  private token = 'auth_token';
+  private currentUserSubject = new BehaviorSubject<User | null>(null);
+  currentUser$ = this.currentUserSubject.asObservable();
 
-  constructor(private http: HttpClient, private cookieService: CookieService, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   login(credentials: { email: string; password: string }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/api/login`, credentials);
+    return this.http.post(`${this.apiUrl}/api/login`, credentials, { withCredentials: true }).pipe(
+      tap(() => this.loadUserProfile()) // Load user after login
+    );
   }
 
   register(registerRequest: RegisterMemberRequest): Observable<any> {
-    return this.http.post(`${this.apiUrl}/api/member/register`, registerRequest);
+    return this.http.post(`${this.apiUrl}/api/member/register`, registerRequest, { withCredentials: true });
   }
 
-  getUserProfile(): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/api/member/me`);
+  loadUserProfile(): void {
+    this.http.get<User>(`${this.apiUrl}/api/member/me`, { withCredentials: true }).subscribe({
+      next: (user) => this.currentUserSubject.next(user),
+      error: () => this.currentUserSubject.next(null)
+    });
   }
 
   getAllUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.apiUrl}/api/members`);
-  }
-
-  getToken(): string | null {
-    return this.cookieService.check(this.token)
-      ? this.cookieService.get(this.token)
-      : null;
-  }
-
-  private getPayload(): any | null {
-    const token = this.getToken();
-    if (!token) return null;
-
-    try {
-      const base64Payload = token.split('.')[1];
-      return JSON.parse(atob(base64Payload));
-    } catch (e) {
-      console.error('Failed to parse JWT payload:', e);
-      return null;
-    }
-  }
-
-  getEmail(): string | null {
-    return this.getPayload()?.sub ?? null;
-  }
-
-  getRoles(): string[] {
-    return this.getPayload()?.roles ?? [];
-  }
-
-  hasRole(role: string): boolean {
-    return this.getRoles().includes(role);
+    return this.http.get<User[]>(`${this.apiUrl}/api/members`, { withCredentials: true });
   }
 
   isAdmin(): boolean {
-    return this.hasRole('ROLE_ADMIN');
+    const user = this.currentUserSubject.value;
+    return user?.roles?.includes('ADMIN') ?? false;
   }
 
   isAuthenticated(): boolean {
-    const payload = this.getPayload();
-    if (!payload) return false;
-
-    const now = Math.floor(Date.now() / 1000);
-    return payload.exp && payload.exp > now;
+    return !!this.currentUserSubject.value;
   }
 
   logout(): void {
-      this.cookieService.delete('auth_token', '/');  // Delete the JWT cookie
-        // Clear other in-memory state (if any), then route
-        this.router.navigate(['/sign-in']); 
+    // Optional: call logout API to delete cookie on server too
+    this.currentUserSubject.next(null);
+    this.router.navigate(['/sign-in']);
   }
 }

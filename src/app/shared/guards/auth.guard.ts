@@ -1,26 +1,18 @@
+import { HttpClient } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { CanActivateFn, Router} from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { catchError, map, of } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 export const authGuard: CanActivateFn = () => {
-  const cookieService = inject(CookieService);
   const router = inject(Router);
+  const http = inject(HttpClient);
+  console.log('authGuard');
+  const apiUrl = environment.apiUrl;
 
-  const token = cookieService.get('auth_token');
-
-  return token || !isTokenExpired(token) ? true : router.createUrlTree(['/sign-in']);
-};
-
-function isTokenExpired(token: string): boolean {
-  try {
-    const payload = JSON.parse(atob(token.split('.')[1])); // decode JWT payload
-    const expiry = payload.exp;
-
-    if (!expiry) return true;
-
-    const now = Math.floor(Date.now() / 1000); // current UNIX timestamp in seconds
-    return expiry < now;
-  } catch (err) {
-    return true; // treat invalid tokens as expired
-  }
+  return http.get(apiUrl + '/api/member/me', {withCredentials : true}).pipe(
+    map(() => true), // user is authenticated
+    catchError(() => of(router.createUrlTree(['/sign-in']))) // not authenticated
+  );
 }

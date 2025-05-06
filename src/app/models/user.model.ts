@@ -16,3 +16,8 @@ export interface RegisterMemberRequest {
   phoneNumber: string;
   password: string;
 }
+
+export enum Role {
+  ADMIN = 'ADMIN',
+  USER = 'USER'
+}
