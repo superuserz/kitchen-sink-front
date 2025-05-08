@@ -31,7 +31,7 @@ export class RegisterComponent {
     this.registerForm = this.formBuilder.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, strictEmailValidator()]],
-      phoneNumber: ['', [Validators.required, Validators.pattern('^[6-9]{10}$')]],
+      phoneNumber: ['', [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')]],
       password: ['', [Validators.required, Validators.minLength(7)]]
     });
   }
