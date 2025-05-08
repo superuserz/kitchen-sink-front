@@ -73,7 +73,7 @@
         <li *ngIf="f.email.errors?.['required']" [class.fade-in]="f.email.errors?.['required']">Email is required.</li>
         <li *ngIf="f.email.errors?.['invalidEmailFormat']" [class.fade-in]="f.email.errors?.['invalidEmailFormat']">Email must be a valid email address.</li>
         <li *ngIf="f.phoneNumber.errors?.['required']" [class.fade-in]="f.phoneNumber.errors?.['required']">Phone number is required.</li>
-        <li *ngIf="f.phoneNumber.errors?.['pattern']" [class.fade-in]="f.phoneNumber.errors?.['pattern']">Phone number must be 10 digits.</li>
+        <li *ngIf="f.phoneNumber.errors?.['pattern']" [class.fade-in]="f.phoneNumber.errors?.['pattern']">Phone number must be valid & 10 digits.</li>
         <li *ngIf="f.password.errors?.['required']" [class.fade-in]="f.password.errors?.['required']">Password is required.</li>
         <li *ngIf="f.password.errors?.['minlength']" [class.fade-in]="f.password.errors?.['minlength']">Password must be at least 7 characters long.</li>
         <li *ngIf="submitted && !hasPasswordUppercase()" [class.fade-in]="submitted && !hasPasswordUppercase()">Password must contain at least one uppercase letter.</li>
